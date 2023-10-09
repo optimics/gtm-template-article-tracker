@@ -108,19 +108,52 @@ ___TEMPLATE_PARAMETERS___
     "paramTableColumns": [
       {
         "param": {
-          "type": "TEXT",
+          "type": "SELECT",
           "name": "event",
           "displayName": "Article Tracker Event",
-          "simpleValueType": true,
+          "macrosInSelect": false,
           "help": "The event name from Article Tracker to subscribe to\n\nhttps://github.com/optimics/analytics/tree/master/browser/article-tracker#user-content-events",
-          "valueHint": "consumptionAchievement",
-          "valueValidators": [
+          "selectItems": [
             {
-              "type": "NON_EMPTY"
+              "value": "consumptionAchievement",
+              "displayValue": "Consumption Achievement"
+            },
+            {
+              "value": "typeConsumptionAchievement",
+              "displayValue": "Type Consumption Achievement"
+            },
+            {
+              "value": "overtime",
+              "displayValue": "Consumption Overtime"
+            },
+            {
+              "value": "consumptionStarted",
+              "displayValue": "Consumption Started"
+            },
+            {
+              "value": "consumptionStopped",
+              "displayValue": "Consumption Stopped"
+            },
+            {
+              "value": "consumptionStateChanged",
+              "displayValue": "Consumption State Changed"
+            },
+            {
+              "value": "elementsAdded",
+              "displayValue": "Elements Added"
+            },
+            {
+              "value": "elementsConsumed",
+              "displayValue": "Elements Consumed"
+            },
+            {
+              "value": "elementsDisplayed",
+              "displayValue": "Elements Displayed"
             }
-          ]
+          ],
+          "simpleValueType": true
         },
-        "isUnique": true
+        "isUnique": false
       },
       {
         "param": {
@@ -135,6 +168,143 @@ ___TEMPLATE_PARAMETERS___
               "type": "NON_EMPTY"
             }
           ]
+        },
+        "isUnique": false
+      },
+      {
+        "param": {
+          "type": "SELECT",
+          "name": "contentArchetype",
+          "displayName": "Content Archetype",
+          "simpleValueType": true,
+          "valueHint": "",
+          "help": "This event will fire only for selected content archetype.",
+          "alwaysInSummary": false,
+          "selectItems": [
+            {
+              "value": "",
+              "displayValue": "Any"
+            },
+            {
+              "value": "audio",
+              "displayValue": "Audio"
+            },
+            {
+              "value": "image",
+              "displayValue": "Image"
+            },
+            {
+              "value": "text",
+              "displayValue": "Text"
+            },
+            {
+              "value": "video",
+              "displayValue": "Video"
+            }
+          ],
+          "enablingConditions": [
+            {
+              "paramName": "event",
+              "paramValue": "typeConsumptionAchievement",
+              "type": "EQUALS"
+            }
+          ]
+        }
+      },
+      {
+        "param": {
+          "type": "TEXT",
+          "name": "contentType",
+          "displayName": "Content Type",
+          "simpleValueType": true,
+          "valueHint": "",
+          "help": "This event will fire only for selected content type.",
+          "alwaysInSummary": false,
+          "enablingConditions": [
+            {
+              "paramName": "event",
+              "paramValue": "typeConsumptionAchievement",
+              "type": "EQUALS"
+            }
+          ]
+        }
+      },
+      {
+        "param": {
+          "type": "TEXT",
+          "name": "achievedAtLeast",
+          "displayName": "Minimal article consumption",
+          "simpleValueType": true,
+          "valueHint": "",
+          "help": "This event will fire only if the article has reached at least specified total consumption percentage.",
+          "alwaysInSummary": false,
+          "valueValidators": [
+            {
+              "type": "DECIMAL"
+            }
+          ],
+          "enablingConditions": [
+            {
+              "paramName": "event",
+              "paramValue": "consumptionAchievement",
+              "type": "EQUALS"
+            },
+            {
+              "paramName": "event",
+              "paramValue": "typeConsumptionAchievement",
+              "type": "EQUALS"
+            },
+            {
+              "paramName": "event",
+              "paramValue": "consumptionStarted",
+              "type": "EQUALS"
+            },
+            {
+              "paramName": "event",
+              "paramValue": "consumptionStopped",
+              "type": "EQUALS"
+            },
+            {
+              "paramName": "event",
+              "paramValue": "overtime",
+              "type": "EQUALS"
+            }
+          ]
+        },
+        "isUnique": false
+      },
+      {
+        "param": {
+          "type": "TEXT",
+          "name": "contentTypeAchievedAtLeast",
+          "displayName": "Minimal (arche)type consumption",
+          "simpleValueType": true,
+          "valueHint": "",
+          "help": "This event will fire only if the specified content type or archetype has reached at least specified total consumption percentage.",
+          "alwaysInSummary": false,
+          "valueValidators": [
+            {
+              "type": "DECIMAL"
+            }
+          ],
+          "enablingConditions": [
+            {
+              "paramName": "event",
+              "paramValue": "typeConsumptionAchievement",
+              "type": "EQUALS"
+            }
+          ]
+        },
+        "isUnique": false
+      },
+      {
+        "param": {
+          "type": "CHECKBOX",
+          "name": "once",
+          "checkboxText": "Fire once",
+          "simpleValueType": true,
+          "help": "The selected event connector will be fired only once and then never again",
+          "alwaysInSummary": false
         },
         "isUnique": false
       },
@@ -167,6 +337,21 @@ ___TEMPLATE_PARAMETERS___
     "simpleValueType": true,
     "help": "Extra properties, that should be added to all of the Article Tracker events. Encoded in JSON.",
     "valueHint": "{\"content_title\": \"{{Content Title}}\"}"
+  },
+  {
+    "type": "TEXT",
+    "name": "intersectionThreshold",
+    "defaultValue": "0.75",
+    "displayName": "Intersection Threshold",
+    "simpleValueType": true,
+    "valueHint": "",
+    "help": "Percentage between 0 and 1 describing the minimal visible content surface, to be considered consumable. Default is 0.75, meaning for example that, if 75 % of a paragraph is visible, it is considered consumable.",
+    "alwaysInSummary": true,
+    "valueValidators": [
+      {
+        "type": "DECIMAL"
+      }
+    ]
   }
 ]
 
