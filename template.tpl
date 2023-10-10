@@ -238,11 +238,6 @@ ___TEMPLATE_PARAMETERS___
           "valueHint": "",
           "help": "This event will fire only if the article has reached at least specified total consumption percentage.",
           "alwaysInSummary": false,
-          "valueValidators": [
-            {
-              "type": "DECIMAL"
-            }
-          ],
           "enablingConditions": [
             {
               "paramName": "event",
