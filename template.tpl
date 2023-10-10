@@ -20,7 +20,7 @@ const connectTracking = () => {
 };
 
 injectScript(
-  data.staging ? ('https://storage.googleapis.com/zt-le-scripts/at/staging/main.js?cacheBreak=' + getTimestampMillis()) : 'https://storage.googleapis.com/zt-le-scripts/at/0.7.1/main.js',
+  data.staging ? ('https://storage.googleapis.com/zt-le-scripts/at/staging/main.js?cacheBreak=' + getTimestampMillis()) : 'https://storage.googleapis.com/zt-le-scripts/at/0.7.2/main.js',
   connectTracking,
   data.gtmOnFailure,
   'article-tracker'
@@ -462,7 +462,7 @@ ___WEB_PERMISSIONS___
             "listItem": [
               {
                 "type": 1,
-                "string": "https://storage.googleapis.com/zt-le-scripts/at/0.7.1/main.js"
+                "string": "https://storage.googleapis.com/zt-le-scripts/at/0.7.2/main.js"
               },
               {
                 "type": 1,
